@@ -120,14 +120,17 @@ const ADMIN_P="seetaram1";
 
 let isAdmin=false, edit=false, register=false;
 
-// Session check
-if(localStorage.getItem("session")){
-document.getElementById("auth").classList.add("hidden");
-document.getElementById("app").classList.remove("hidden");
-if(localStorage.getItem("session")=="admin"){
-isAdmin=true;
-document.getElementById("adminBar").classList.remove("hidden");
-}
+// Show login if not logged in
+function checkSession(){
+  const s = localStorage.getItem("session");
+  if(s){
+    document.getElementById("auth").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    if(s=="admin"){isAdmin=true;document.getElementById("adminBar").classList.remove("hidden");}
+  }else{
+    document.getElementById("auth").classList.remove("hidden");
+    document.getElementById("app").classList.add("hidden");
+  }
 }
 
 // Home text
@@ -163,21 +166,20 @@ return;
 // Admin login
 if(m==ADMIN_M && p==ADMIN_P){
 localStorage.setItem("session","admin");
-location.reload();
-return;
+checkSession();return;
 }
 
 // Normal user login
 if(users[m]==p){
 localStorage.setItem("session","user");
-location.reload();
+checkSession();
 }else{alert("❌ Invalid credentials");}
 }
 
 // Logout
 function logout(){
 localStorage.removeItem("session");
-location.reload();
+checkSession();
 }
 
 // Show section
@@ -194,8 +196,7 @@ document.getElementById("videoAdd").classList.toggle("hidden");
 document.getElementById("toolAdd").classList.toggle("hidden");
 document.getElementById("homeEdit").classList.toggle("hidden");
 document.getElementById("saveHome").classList.toggle("hidden");
-loadVideos();
-loadTools();
+loadVideos(); loadTools();
 }
 
 // Home Text edit
@@ -205,85 +206,21 @@ if(txt){localStorage.setItem("homeText",txt);document.getElementById("homeText")
 }
 
 // VIDEO FUNCTIONS
-function extractVideoId(url){
-let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/);
-return m?m[1]:null;
-}
-
-function addVideo(){
-let url=document.getElementById("videoUrl").value.trim();
-let id=extractVideoId(url);
-if(!id){alert("❌ Invalid URL");return;}
-let arr=JSON.parse(localStorage.getItem("videos")||"[]");
-arr.push(id);
-localStorage.setItem("videos",JSON.stringify(arr));
-document.getElementById("videoUrl").value="";
-loadVideos();
-}
-
-function loadVideos(){
-let arr=JSON.parse(localStorage.getItem("videos")||"[]");
-let div=document.getElementById("videoList"); div.innerHTML="";
-if(arr.length===0){div.innerHTML="<div class='box'>No videos yet.</div>";return;}
-arr.forEach((v,i)=>{
-div.innerHTML+=`<div class='box'><iframe src='https://www.youtube.com/embed/${v}' allowfullscreen></iframe>${isAdmin&&edit?`<button class='del' onclick='delVideo(${i})'>Delete</button>`:""}</div>`;
-});
-}
-
-function delVideo(i){
-let arr=JSON.parse(localStorage.getItem("videos"));
-arr.splice(i,1);
-localStorage.setItem("videos",JSON.stringify(arr));
-loadVideos();
-}
+function extractVideoId(url){let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/);return m?m[1]:null;}
+function addVideo(){let url=document.getElementById("videoUrl").value.trim();let id=extractVideoId(url);if(!id){alert("❌ Invalid URL");return;}let arr=JSON.parse(localStorage.getItem("videos")||"[]");arr.push(id);localStorage.setItem("videos",JSON.stringify(arr));document.getElementById("videoUrl").value="";loadVideos();}
+function loadVideos(){let arr=JSON.parse(localStorage.getItem("videos")||"[]");let div=document.getElementById("videoList");div.innerHTML="";if(arr.length===0){div.innerHTML="<div class='box'>No videos yet.</div>";return;}arr.forEach((v,i)=>{div.innerHTML+=`<div class='box'><iframe src='https://www.youtube.com/embed/${v}' allowfullscreen></iframe>${isAdmin&&edit?`<button class='del' onclick='delVideo(${i})'>Delete</button>`:""}</div>`;});}
+function delVideo(i){let arr=JSON.parse(localStorage.getItem("videos"));arr.splice(i,1);localStorage.setItem("videos",JSON.stringify(arr));loadVideos();}
 
 // TOOLS
-function addTool(){
-let n=document.getElementById("toolName").value.trim();
-let d=document.getElementById("toolDesc").value.trim();
-let img=document.getElementById("toolImg").value.trim();
-let l=document.getElementById("toolLink").value.trim();
-if(!n||!l){alert("Tool name & link required");return;}
-let arr=JSON.parse(localStorage.getItem("tools")||"[]");
-arr.push({name:n,desc:d,img,img,link:l});
-localStorage.setItem("tools",JSON.stringify(arr));
-document.getElementById("toolName").value="";
-document.getElementById("toolDesc").value="";
-document.getElementById("toolImg").value="";
-document.getElementById("toolLink").value="";
-loadTools();
-}
+function addTool(){let n=document.getElementById("toolName").value.trim();let d=document.getElementById("toolDesc").value.trim();let img=document.getElementById("toolImg").value.trim();let l=document.getElementById("toolLink").value.trim();if(!n||!l){alert("Tool name & link required");return;}let arr=JSON.parse(localStorage.getItem("tools")||"[]");arr.push({name:n,desc:d,img,img,link:l});localStorage.setItem("tools",JSON.stringify(arr));document.getElementById("toolName").value="";document.getElementById("toolDesc").value="";document.getElementById("toolImg").value="";document.getElementById("toolLink").value="";loadTools();}
+function loadTools(){let arr=JSON.parse(localStorage.getItem("tools")||"[]");let div=document.getElementById("toolList");div.innerHTML="";if(arr.length===0){div.innerHTML="<div class='box'>No tools yet.</div>";return;}arr.forEach((t,i)=>{div.innerHTML+=`<div class='box'><img src='${t.img}' onerror="this.src='https://placehold.co/600x400/2d3e50/fff?text=tool'"><h4>${t.name}</h4><p>${t.desc}</p><a href='${t.link}' target='_blank'>Open Tool</a>${isAdmin&&edit?`<button class='del' onclick='delTool(${i})'>Delete</button>`:""}</div>`;});}
+function delTool(i){let arr=JSON.parse(localStorage.getItem("tools"));arr.splice(i,1);localStorage.setItem("tools",JSON.stringify(arr));loadTools();}
 
-function loadTools(){
-let arr=JSON.parse(localStorage.getItem("tools")||"[]");
-let div=document.getElementById("toolList"); div.innerHTML="";
-if(arr.length===0){div.innerHTML="<div class='box'>No tools yet.</div>";return;}
-arr.forEach((t,i)=>{
-div.innerHTML+=`<div class='box'><img src='${t.img}' onerror="this.src='https://placehold.co/600x400/2d3e50/fff?text=tool'"><h4>${t.name}</h4><p>${t.desc}</p><a href='${t.link}' target='_blank'>Open Tool</a>${isAdmin&&edit?`<button class='del' onclick='delTool(${i})'>Delete</button>`:""}</div>`;
-});
-}
+// Dashboard
+function updateDashboard(){let users=JSON.parse(localStorage.getItem("users")||"{}");let videos=JSON.parse(localStorage.getItem("videos")||"[]");let tools=JSON.parse(localStorage.getItem("tools")||"[]");document.getElementById("dashboard").innerHTML=`Users: ${Object.keys(users).length} | Videos: ${videos.length} | Tools: ${tools.length}`;}
 
-function delTool(i){
-let arr=JSON.parse(localStorage.getItem("tools"));
-arr.splice(i,1);
-localStorage.setItem("tools",JSON.stringify(arr));
-loadTools();
-}
-
-// LIVE DASHBOARD
-function updateDashboard(){
-let users=JSON.parse(localStorage.getItem("users")||"{}");
-let videos=JSON.parse(localStorage.getItem("videos")||"[]");
-let tools=JSON.parse(localStorage.getItem("tools")||"[]");
-document.getElementById("dashboard").innerHTML=
-`Users: ${Object.keys(users).length} | Videos: ${videos.length} | Tools: ${tools.length}`;
-}
-
-// Initial load
-loadVideos();
-loadTools();
-updateDashboard();
-setInterval(updateDashboard,3000);
+loadVideos(); loadTools(); updateDashboard(); setInterval(updateDashboard,3000);
+checkSession();
 </script>
 
 </body>
