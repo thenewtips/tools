@@ -1,90 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>thenewtips · Ethical Learning Hub</title>
+<title>thenewtips · Cyber Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-body{
-font-family:Arial;
-margin:0;
-background:#eef3f9;
-}
-header{
-background:#0b1f33;
-color:white;
-padding:15px;
-text-align:center;
-font-size:20px;
-font-weight:bold;
-}
-.container{padding:15px;}
-.box{
-background:white;
-padding:15px;
-margin-bottom:15px;
-border-radius:12px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-input,textarea,button{
-width:100%;
-padding:10px;
-margin-top:8px;
-border-radius:8px;
-border:1px solid #ccc;
-}
-button{
-background:#0b1f33;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-nav{
-display:flex;
-justify-content:space-around;
-background:white;
-padding:10px;
-position:sticky;
-top:0;
-}
-nav button{
-background:none;
-color:#0b1f33;
-border:none;
-font-weight:bold;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#eef3f9;}
+header{background:#0b1f33;color:white;padding:15px;text-align:center;font-size:22px;font-weight:bold;}
+.container{padding:15px;max-width:700px;margin:auto;}
+.box{background:white;padding:15px;margin-bottom:15px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+input,textarea,button{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc;}
+button{background:#0b1f33;color:white;font-weight:bold;cursor:pointer;}
+nav{display:flex;justify-content:space-around;background:white;padding:10px;position:sticky;top:0;z-index:10;}
+nav button{background:none;color:#0b1f33;border:none;font-weight:bold;font-size:16px;}
 .section{display:none;}
 .active{display:block;}
-.adminBar{
-background:#111;
-color:white;
-padding:10px;
-text-align:center;
-}
-.del{
-background:red;
-margin-top:5px;
-}
+.adminBar{background:#111;color:white;padding:10px;text-align:center;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.del{background:red;margin-top:5px;padding:5px 10px;color:white;border:none;border-radius:5px;cursor:pointer;}
 .hidden{display:none;}
-iframe{width:100%;height:220px;margin-top:10px;}
-img{width:100%;margin-top:10px;border-radius:8px;}
+iframe{width:100%;height:220px;margin-top:10px;border-radius:8px;}
+img{width:100%;margin-top:10px;border-radius:8px;object-fit:cover;}
+.dashboard{background:#f9f9f9;padding:10px;margin-bottom:10px;border-radius:10px;font-size:14px;}
+.social a{margin-right:12px;text-decoration:none;font-weight:bold;color:#0b1f33;}
+.home-images{display:flex;gap:10px;flex-wrap:wrap;}
+.home-images img{width:32%;height:150px;object-fit:cover;}
+@media(max-width:500px){header{font-size:18px;}nav button{font-size:14px;}.home-images img{width:100%;margin-bottom:10px;}}
 </style>
 </head>
-
 <body>
 
-<header>thenewtips · Ethical Compass</header>
+<header>thenewtips · Cyber Hub</header>
 
-<!-- LOGIN -->
+<!-- AUTH -->
 <div id="auth" class="container">
 <div class="box">
 <h3 id="authTitle">Login</h3>
 <input id="mobile" placeholder="Mobile Number">
 <input id="pass" type="password" placeholder="Password">
 <button onclick="auth()">Login</button>
-<p id="switch" style="text-align:center;margin-top:10px;">
-New user? <a href="#" onclick="switchMode()">Create account</a>
+<p style="text-align:center;margin-top:10px;">
+<span id="switchText">New user?</span> <a href="#" onclick="switchMode()">Create account</a>
 </p>
 </div>
 </div>
@@ -92,12 +47,14 @@ New user? <a href="#" onclick="switchMode()">Create account</a>
 <!-- APP -->
 <div id="app" class="hidden">
 
+<!-- ADMIN PANEL -->
 <div id="adminBar" class="adminBar hidden">
-ADMIN PANEL |
-<button onclick="toggleEdit()">Edit Mode</button>
-<button onclick="logout()">Logout</button>
+<button onclick="toggleEdit()">✎ Edit Mode</button>
+<button onclick="logout()">🚪 Logout</button>
+<div class="dashboard" id="dashboard">Loading dashboard...</div>
 </div>
 
+<!-- NAV -->
 <nav>
 <button onclick="show('home')">Home</button>
 <button onclick="show('videos')">Videos</button>
@@ -109,12 +66,25 @@ ADMIN PANEL |
 <!-- HOME -->
 <div id="home" class="section active">
 <div class="box">
-<h3>Ethical Hacking</h3>
+<h3>🧠 Ethical Hacking & Cybersecurity</h3>
 <p id="homeText"></p>
 <textarea id="homeEdit" class="hidden"></textarea>
-<button id="saveHome" class="hidden" onclick="saveHome()">Save</button>
+<button id="saveHome" class="hidden" onclick="saveHome()">Save Home Text</button>
+
+<div class="home-images" id="homeImages">
+<img src="https://placehold.co/600x400/2d3e50/fff?text=Cyber+Image+1">
+<img src="https://placehold.co/600x400/2d3e50/fff?text=Cyber+Image+2">
+<img src="https://placehold.co/600x400/2d3e50/fff?text=Cyber+Image+3">
+</div>
+
+<div class="social" style="margin-top:10px;">
+<a href="https://facebook.com" target="_blank">Facebook</a>
+<a href="https://instagram.com" target="_blank">Instagram</a>
+<a href="mailto:contact@thenewtips.com">Email</a>
+</div>
+
 <div style="margin-top:10px;color:red;font-size:13px;">
-Disclaimer: Educational purpose only.
+⚠️ Disclaimer: Educational purpose only. Practice only on your own environment.
 </div>
 </div>
 </div>
@@ -123,7 +93,7 @@ Disclaimer: Educational purpose only.
 <div id="videos" class="section">
 <div id="videoList"></div>
 <div id="videoAdd" class="box hidden">
-<input id="videoUrl" placeholder="YouTube URL">
+<input id="videoUrl" placeholder="YouTube URL (youtu.be/... or ?v=...)">
 <button onclick="addVideo()">Add Video</button>
 </div>
 </div>
@@ -133,9 +103,9 @@ Disclaimer: Educational purpose only.
 <div id="toolList"></div>
 <div id="toolAdd" class="box hidden">
 <input id="toolName" placeholder="Tool Name">
-<input id="toolDesc" placeholder="Description">
+<input id="toolDesc" placeholder="Short Description">
 <input id="toolImg" placeholder="Image URL">
-<input id="toolLink" placeholder="Tool Link">
+<input id="toolLink" placeholder="Tool Link (https://...)">
 <button onclick="addTool()">Add Tool</button>
 </div>
 </div>
@@ -144,71 +114,79 @@ Disclaimer: Educational purpose only.
 </div>
 
 <script>
-
+// Admin credentials
 const ADMIN_M="9399687115";
 const ADMIN_P="seetaram1";
 
-let isAdmin=false;
-let edit=false;
-let register=false;
+let isAdmin=false, edit=false, register=false;
 
+// Session check
 if(localStorage.getItem("session")){
 document.getElementById("auth").classList.add("hidden");
 document.getElementById("app").classList.remove("hidden");
-
 if(localStorage.getItem("session")=="admin"){
 isAdmin=true;
 document.getElementById("adminBar").classList.remove("hidden");
 }
 }
 
+// Home text
 document.getElementById("homeText").innerText=
-localStorage.getItem("homeText") ||
-"Learn ethical hacking legally. Start with networking and Linux.";
+localStorage.getItem("homeText")||"Learn ethical hacking legally. Start with networking, Linux, Python and TryHackMe.";
 
+// Switch login/register
 function switchMode(){
 register=!register;
 document.getElementById("authTitle").innerText=register?"Register":"Login";
+document.getElementById("switchText").innerText=register?"Already have account?":"New user?";
 }
 
+// AUTH
 function auth(){
-let m=document.getElementById("mobile").value;
-let p=document.getElementById("pass").value;
+let m=document.getElementById("mobile").value.trim();
+let p=document.getElementById("pass").value.trim();
 let users=JSON.parse(localStorage.getItem("users")||"{}");
 
+if(!m||!p){alert("Fill all fields!");return;}
+
 if(register){
-if(users[m]){alert("Already registered");return;}
+if(users[m]){alert("❌ Mobile already registered");return;}
 users[m]=p;
 localStorage.setItem("users",JSON.stringify(users));
-alert("Registered! Now login.");
+alert("✅ Registered! Now login.");
 register=false;
+document.getElementById("authTitle").innerText="Login";
+document.getElementById("switchText").innerText="New user?";
 return;
 }
 
+// Admin login
 if(m==ADMIN_M && p==ADMIN_P){
 localStorage.setItem("session","admin");
 location.reload();
 return;
 }
 
+// Normal user login
 if(users[m]==p){
 localStorage.setItem("session","user");
 location.reload();
-}else{
-alert("Invalid login");
-}
+}else{alert("❌ Invalid credentials");}
 }
 
+// Logout
 function logout(){
 localStorage.removeItem("session");
 location.reload();
 }
 
+// Show section
 function show(id){
 document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
+// Admin Edit Mode
 function toggleEdit(){
 if(!isAdmin)return;
 edit=!edit;
@@ -216,35 +194,42 @@ document.getElementById("videoAdd").classList.toggle("hidden");
 document.getElementById("toolAdd").classList.toggle("hidden");
 document.getElementById("homeEdit").classList.toggle("hidden");
 document.getElementById("saveHome").classList.toggle("hidden");
+loadVideos();
+loadTools();
 }
 
+// Home Text edit
 function saveHome(){
-let txt=document.getElementById("homeEdit").value;
-localStorage.setItem("homeText",txt);
-document.getElementById("homeText").innerText=txt;
+let txt=document.getElementById("homeEdit").value.trim();
+if(txt){localStorage.setItem("homeText",txt);document.getElementById("homeText").innerText=txt;}
+}
+
+// VIDEO FUNCTIONS
+function extractVideoId(url){
+let m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/);
+return m?m[1]:null;
 }
 
 function addVideo(){
-let url=document.getElementById("videoUrl").value;
-let id=url.split("v=")[1]||url.split("/").pop();
+let url=document.getElementById("videoUrl").value.trim();
+let id=extractVideoId(url);
+if(!id){alert("❌ Invalid URL");return;}
 let arr=JSON.parse(localStorage.getItem("videos")||"[]");
 arr.push(id);
 localStorage.setItem("videos",JSON.stringify(arr));
+document.getElementById("videoUrl").value="";
 loadVideos();
 }
 
 function loadVideos(){
 let arr=JSON.parse(localStorage.getItem("videos")||"[]");
-let div=document.getElementById("videoList");
-div.innerHTML="";
+let div=document.getElementById("videoList"); div.innerHTML="";
+if(arr.length===0){div.innerHTML="<div class='box'>No videos yet.</div>";return;}
 arr.forEach((v,i)=>{
-div.innerHTML+=`
-<div class="box">
-<iframe src="https://www.youtube.com/embed/${v}" allowfullscreen></iframe>
-${isAdmin&&edit?`<button class="del" onclick="delVideo(${i})">Delete</button>`:""}
-</div>`;
+div.innerHTML+=`<div class='box'><iframe src='https://www.youtube.com/embed/${v}' allowfullscreen></iframe>${isAdmin&&edit?`<button class='del' onclick='delVideo(${i})'>Delete</button>`:""}</div>`;
 });
 }
+
 function delVideo(i){
 let arr=JSON.parse(localStorage.getItem("videos"));
 arr.splice(i,1);
@@ -252,33 +237,32 @@ localStorage.setItem("videos",JSON.stringify(arr));
 loadVideos();
 }
 
+// TOOLS
 function addTool(){
-let name=document.getElementById("toolName").value;
-let desc=document.getElementById("toolDesc").value;
-let img=document.getElementById("toolImg").value;
-let link=document.getElementById("toolLink").value;
-
+let n=document.getElementById("toolName").value.trim();
+let d=document.getElementById("toolDesc").value.trim();
+let img=document.getElementById("toolImg").value.trim();
+let l=document.getElementById("toolLink").value.trim();
+if(!n||!l){alert("Tool name & link required");return;}
 let arr=JSON.parse(localStorage.getItem("tools")||"[]");
-arr.push({name,desc,img,link});
+arr.push({name:n,desc:d,img,img,link:l});
 localStorage.setItem("tools",JSON.stringify(arr));
+document.getElementById("toolName").value="";
+document.getElementById("toolDesc").value="";
+document.getElementById("toolImg").value="";
+document.getElementById("toolLink").value="";
 loadTools();
 }
 
 function loadTools(){
 let arr=JSON.parse(localStorage.getItem("tools")||"[]");
-let div=document.getElementById("toolList");
-div.innerHTML="";
+let div=document.getElementById("toolList"); div.innerHTML="";
+if(arr.length===0){div.innerHTML="<div class='box'>No tools yet.</div>";return;}
 arr.forEach((t,i)=>{
-div.innerHTML+=`
-<div class="box">
-<img src="${t.img}">
-<h4>${t.name}</h4>
-<p>${t.desc}</p>
-<a href="${t.link}" target="_blank">Open Tool</a>
-${isAdmin&&edit?`<button class="del" onclick="delTool(${i})">Delete</button>`:""}
-</div>`;
+div.innerHTML+=`<div class='box'><img src='${t.img}' onerror="this.src='https://placehold.co/600x400/2d3e50/fff?text=tool'"><h4>${t.name}</h4><p>${t.desc}</p><a href='${t.link}' target='_blank'>Open Tool</a>${isAdmin&&edit?`<button class='del' onclick='delTool(${i})'>Delete</button>`:""}</div>`;
 });
 }
+
 function delTool(i){
 let arr=JSON.parse(localStorage.getItem("tools"));
 arr.splice(i,1);
@@ -286,9 +270,20 @@ localStorage.setItem("tools",JSON.stringify(arr));
 loadTools();
 }
 
+// LIVE DASHBOARD
+function updateDashboard(){
+let users=JSON.parse(localStorage.getItem("users")||"{}");
+let videos=JSON.parse(localStorage.getItem("videos")||"[]");
+let tools=JSON.parse(localStorage.getItem("tools")||"[]");
+document.getElementById("dashboard").innerHTML=
+`Users: ${Object.keys(users).length} | Videos: ${videos.length} | Tools: ${tools.length}`;
+}
+
+// Initial load
 loadVideos();
 loadTools();
-
+updateDashboard();
+setInterval(updateDashboard,3000);
 </script>
 
 </body>
